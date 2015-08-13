@@ -6,7 +6,7 @@
     </head>
 <body>
 	<?
-	
+	echo "hello";
 	?>
 </body>
 </html>
