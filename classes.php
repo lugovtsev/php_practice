@@ -88,6 +88,7 @@
 	
 	class SuperUser extends User implements ISuperUser{
 		public $role;
+		public static $suCount = 0;
 		function getInfo() {
 			/*$arr = array();
 			foreach($this as $k=>$v)
@@ -97,8 +98,13 @@
 		}
 		function __construct($n, $l, $p, $r)
 		{
+			++self::$suCount;
 			parent::__construct($n, $l, $p); //вызов метода родителя и ниже добавление итераций
 			$this->role = $r;
+		}
+		
+		function __clone() {
+			++self::$suCount;
 		}
 		function showInfo() 
 		{
@@ -107,9 +113,27 @@
 		}
 	}
 	$su1 = new SuperUser("Nik","nik","999","admin");
-	echo "<pre>";
+	$su3 = new SuperUser("Jo","jo","999","superadmin");
+	$su2 = clone $su1;
+	echo SuperUser::$suCount;
+	/*echo "<pre>";
 	print_r($su1->getInfo());
-	echo "</pre>";
+	echo "</pre>";*/
+	
+	//финальные методы нельзя перегружать (изменять), финальные классы нельзя наследовать
+	final class Hello{
+		static function sayHello() { //статические внутриклассовые функции  можно вызывать без создания объекта класса
+			echo "<br>hello";
+		}
+	}
+	/* ошибка нельзя наследовать 
+	class NewHello extends Hello{
+		public $q;
+	}*/
+	$class = "Hello";
+	$method = "sayHello";
+	$class::$method(); // вызов метода класса в динамике
+
 ?>
 </body>
 </html>
