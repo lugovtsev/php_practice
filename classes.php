@@ -50,13 +50,66 @@
 	}
 	//Класс Man наследует интерфейсы (абстрактные классы) и перегружаются методы. Особенность - в нескольких интерфейсах, от которых наследуется класс, не должно быть одноименных методов 
 	class Man implements Hand, Foot { 
-		function useKeyboard(){}
-		function touchNose(){}
-		function Kick(){}
-		function Run(){}
+		function useKeyboard(){echo "1";}
+		function touchNose(){echo "2";}
+		function Kick(){echo "3";}
+		function Run(){echo "4";}
 	}
 	$man1 = new Man;
 
-	?>
+	
+	// Переделанный Юзер с использованием  абстрактного класса и интерфейса
+	abstract class AUser{
+		abstract function showInfo();
+	}
+	
+	class User extends AUser{
+		public $name;
+		public $login;
+		public $pas;
+		function __construct($n, $l, $p)
+		{
+			$this->name = $n;
+			$this->login = $l;
+			$this->pas = $p;
+		}
+		
+		function showInfo() 
+		{
+			echo "<br>Имя: $this->name";
+			echo "<br>Логин: $this->login";
+			echo "<br>Пароль: $this->pas<br>";
+		}
+	}
+	
+	interface ISuperUser{
+		function getInfo();
+	}
+	
+	class SuperUser extends User implements ISuperUser{
+		public $role;
+		function getInfo() {
+			/*$arr = array();
+			foreach($this as $k=>$v)
+			$arr[$k] = $v;
+			return $arr;*/
+			return (array)$this; //тоже самое только короче
+		}
+		function __construct($n, $l, $p, $r)
+		{
+			parent::__construct($n, $l, $p); //вызов метода родителя и ниже добавление итераций
+			$this->role = $r;
+		}
+		function showInfo() 
+		{
+			parent::showInfo();
+			echo "<br>Роль: $this->role<br>";
+		}
+	}
+	$su1 = new SuperUser("Nik","nik","999","admin");
+	echo "<pre>";
+	print_r($su1->getInfo());
+	echo "</pre>";
+?>
 </body>
 </html>
