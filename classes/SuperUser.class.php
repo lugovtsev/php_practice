@@ -17,18 +17,23 @@ class SuperUser extends User implements ISuperUser{
 			$this->role = $r;
 			++self::$suCount;
 			--parent::$cntU; //так как вызывается родительский конструктор при создании объекта суперадмина то каждый раз увеличивается и статическая переменная $cntU, поэтому каждый раз возвращаем ее к начальному состоянию 
+			//echo "<hr>Создан объект класса ".__CLASS__.": $this->name";
 		}
 		
-		function __destruct(){} 
+		function __destruct(){
+			parent::__destruct(); //возвращает класс предка - неправильно
+		} 
 		
 		function __clone() {
+			parent::__clone();
 			++self::$suCount;
+			--parent::$cntU;
 		}
 		
 		function showInfo() 
 		{
 			parent::showInfo();
-			echo "<br>Роль: $this->role<br>";
+			echo "Роль: $this->role<br>";
 		}
 	}
 ?>
