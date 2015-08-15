@@ -2,7 +2,7 @@
 <html lang="ru">
    <head>
    <meta charset="utf-8">
-        <title>Что-то в PHP</title>
+        <title>Интерфейсы, статика, финальные классы в PHP</title>
     </head>
 <body>
 	<?
@@ -17,7 +17,6 @@
 	$person1 = new Human;
 	//$person1->printHands();
  	//echo "Количество рук: ".Human::HANDS."<br>";
-	
 	
 	//Абстрактные классы и методы и их использование. Нельзя создавать объекты абстрактного класса, создавать можно только у наследуемого
 	
@@ -56,69 +55,6 @@
 		function Run(){echo "4";}
 	}
 	$man1 = new Man;
-
-	
-	// Переделанный Юзер с использованием  абстрактного класса и интерфейса
-	abstract class AUser{
-		abstract function showInfo();
-	}
-	
-	class User extends AUser{
-		public $name;
-		public $login;
-		public $pas;
-		function __construct($n, $l, $p)
-		{
-			$this->name = $n;
-			$this->login = $l;
-			$this->pas = $p;
-		}
-		
-		function showInfo() 
-		{
-			echo "<br>Имя: $this->name";
-			echo "<br>Логин: $this->login";
-			echo "<br>Пароль: $this->pas<br>";
-		}
-	}
-	
-	interface ISuperUser{
-		function getInfo();
-	}
-	
-	class SuperUser extends User implements ISuperUser{
-		public $role;
-		public static $suCount = 0;
-		function getInfo() {
-			/*$arr = array();
-			foreach($this as $k=>$v)
-			$arr[$k] = $v;
-			return $arr;*/
-			return (array)$this; //тоже самое только короче
-		}
-		function __construct($n, $l, $p, $r)
-		{
-			++self::$suCount;
-			parent::__construct($n, $l, $p); //вызов метода родителя и ниже добавление итераций
-			$this->role = $r;
-		}
-		
-		function __clone() {
-			++self::$suCount;
-		}
-		function showInfo() 
-		{
-			parent::showInfo();
-			echo "<br>Роль: $this->role<br>";
-		}
-	}
-	$su1 = new SuperUser("Nik","nik","999","admin");
-	$su3 = new SuperUser("Jo","jo","999","superadmin");
-	$su2 = clone $su1;
-	echo SuperUser::$suCount;
-	/*echo "<pre>";
-	print_r($su1->getInfo());
-	echo "</pre>";*/
 	
 	//финальные методы нельзя перегружать (изменять), финальные классы нельзя наследовать
 	final class Hello{
@@ -132,8 +68,11 @@
 	}*/
 	$class = "Hello";
 	$method = "sayHello";
-	$class::$method(); // вызов метода класса в динамике
-
+	//$class::$method(); // вызов метода класса в динамике
+	
+	//ниже 2 идентичные реализации способа проверки: имеет ли класс объекта в своих предках искомый класс, или принадлежит ли объект искомому классу
+	if ($su1 instanceof User) echo 'В предках у объекта суперюзера есть класс Юзер';
+	if (is_a($su1, 'User')) echo 'В предках у объекта суперюзера есть класс Юзер';
 ?>
 </body>
 </html>

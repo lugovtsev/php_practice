@@ -32,29 +32,6 @@
 		}
 	}
 	
-	class User{
-		public $name;
-		public $login;
-		public $pas;
-		function __construct($n, $l, $p)
-		{
-			$this->name = $n;
-			$this->login = $l;
-			$this->pas = $p;
-		}
-		// функция ниже вызывается при копировании объекта
-		function __clone()
-		{
-				echo "Объект $this->name скопирован<br>";
-		}
-		function showInfo() 
-		{
-			echo "<br>Вызван метод ".__METHOD__;
-			echo "<br>Имя: $this->name";
-			echo "<br>Логин: $this->login";
-			echo "<br>Пароль: $this->pas<br>";
-		}
-	}
 	//наследование класса и инкапсуляция (добавление в дочерний новых экземпляров класса)
 	class SuperUser extends User{
 		public $role;
@@ -93,14 +70,6 @@
 //			  $mega->addHR();
 	$mega->sendInvite(MYNAME);
 	$sidenis->sendInvite(MYNAME);
-	
-	$user1 = new User("Ivan Petrov", "ivan", "123"); //создается объект и в $user1 заносится ссылка на этот объкт
-	$clonUser1 = clone $user1; //копирование объекта
-	$user1->showInfo();
-	$user2 = new User("Inna Ivanova","inna","3434");
-	$user2->showInfo();
-	$superuser1 = new SuperUser("Oleg","admin","0000","superAdmin");
-	$superuser1->showInfo();
 	
 	// try catch
 	try {
